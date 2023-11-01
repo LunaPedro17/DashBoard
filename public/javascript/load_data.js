@@ -77,7 +77,7 @@ let cargarOpenMeteo = () => {
       
       //Etiquetas de los datos
       let data = responseJSON.hourly.temperature_2m;
-      let data2 =responseJSON.hourly.time.precpitation_probability;
+      let data2 =responseJSON.hourly.precipitation_probability;
   
       //Objeto de configuración del gráfico
       let config = {
@@ -98,7 +98,7 @@ let cargarOpenMeteo = () => {
           labels: labels, 
           datasets: [
             {
-              label: 'precipitation_probability',
+              label: 'precipitation probability',
               data: data2, 
             }
           ]

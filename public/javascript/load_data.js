@@ -221,6 +221,32 @@ let parseXML = (responseText) => {
 
 }
 
+let loadExternalTable = async(event) => {
+  
+  //Requerimiento asíncrono
+    //Handling event
+    console.log("Gestion de riesgos")
+  
+    let proxy = 'https://cors-anywhere.herokuapp.com/'
+    let URL = proxy + 'https://www.gestionderiesgos.gob.ec/monitoreo-de-inundaciones/'
+  
+    let response= await fetch(URL)
+    let responseText= await response.text()
+  
+    const parser=await new DOMParser();
+    const xml= await parser.parseFromString(responseText,"text/html");
+  
+    let table=await xml.querySelector("#postcontent table")
+  
+    document.getElementById("monitoreo").innerHTML= table.outerHTML
+  
+  
+  
+ }
+ 
+ loadExternalTable()
+
+
 
 
 

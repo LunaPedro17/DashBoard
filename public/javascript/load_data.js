@@ -60,7 +60,7 @@ let cargarFechaActual = () => {
 let cargarOpenMeteo = () => {
 
   //URL que responde con la respuesta a cargar
-  let URL ='https://api.open-meteo.com/v1/forecast?latitude=-2.1962&longitude=-79.8862&hourly=temperature_2m,precipitation_probability&timezone=auto'; 
+  let URL ='https://api.open-meteo.com/v1/forecast?latitude=-2.1962&longitude=-79.8862&hourly=temperature_2m,precipitation_probability&daily=uv_index_max&timezone=auto'; 
 
   fetch( URL )
     .then(responseText => responseText.json())
@@ -72,15 +72,37 @@ let cargarOpenMeteo = () => {
       //Referencia al elemento con el identificador plot
       let plotRef = document.getElementById('plot1');
       let plotRef2= document.getElementById('plot2');
+      let plotRef3= document.getElementById('plot3');
       //Etiquetas del gráfico
+
+      //cada 3 horas
+      let label=[];
+
+
       let labels = responseJSON.hourly.time;
-      
+      let label2=responseJSON.daily.time;
       //Etiquetas de los datos
-      let data = responseJSON.hourly.temperature_2m;
+      //let data = responseJSON.hourly.temperature_2m;
       let data2 =responseJSON.hourly.precipitation_probability;
-  
-      //Objeto de configuración del gráfico
-      let config = {
+      let data3 = responseJSON.daily.uv_index_max;
+      
+      
+      
+      //cada 3 horas
+      let data1 = [];
+
+
+      //OBTENER CADA 3 HORAS
+      responseJSON.hourly.time.forEach((hourlyData, index) => {
+        if (index % 3 === 0 && index < 24) {
+          label.push(hourlyData);
+          data1.push(responseJSON.hourly.temperature_2m[index]);
+
+        }
+      });
+
+      //Objeto de configuración del gráfico forma normal
+      /*let config = {
         type: 'line',
         data: {
           labels: labels, 
@@ -91,9 +113,9 @@ let cargarOpenMeteo = () => {
             }
           ]
         }
-      };
+      };*/
       let config2 = {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: labels, 
           datasets: [
@@ -104,10 +126,54 @@ let cargarOpenMeteo = () => {
           ]
         }
       };
-  
+      let config3 = {
+        type: 'line',
+        data: {
+          labels: label2, 
+          datasets: [
+            {
+              label: 'Rayos UV',
+              data: data3, 
+            }
+          ]
+        }
+      };
+      //Objeto de configuración del gráfico
+      let config4 = {
+        type: 'line',
+        data: {
+          labels: label,
+          datasets: [
+            {
+              label: 'Temperatura cada 3 horas',
+              data: data1,
+              fill: false,
+              borderColor:'rgba(25, 19, 70, 0.5)' ,
+              backgroundColor: 'rgba(205, 129,324, 0.5)',
+              borderWidth: 1,
+              pointRadius: 5,
+              pointBorderColor: 'rgb(0, 0, 0)'
+            }
+          ]
+        },
+        plugins: {
+          legend: {
+            labels: {
+              responsive: true,
+              usePointStyle: true,
+              maintainAspectRatio: true,
+              text: (ctx) => 'Point Style: ' + ctx.chart.data.datasets[0].pointStyle,
+            },
+          }
+        }
+      };
+      
+
       //Objeto con la instanciación del gráfico
-      let chart1  = new Chart(plotRef, config);
+      //let chart1 = new Chart(plotRef, config);
       let chart2 = new Chart(plotRef2,config2);
+      let chart3 = new Chart(plotRef3,config3)
+      let chart4 = new Chart(plotRef, config4);
     })
     .catch(console.error);
 }
@@ -221,6 +287,10 @@ let parseXML = (responseText) => {
 
 }
 
+
+
+
+/*
 let loadExternalTable = async(event) => {
   
   //Requerimiento asíncrono
@@ -243,8 +313,8 @@ let loadExternalTable = async(event) => {
   
   
  }
- 
- loadExternalTable()
+ *///
+ //loadExternalTable()
 
 
 

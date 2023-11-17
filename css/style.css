@@ -1,0 +1,69 @@
+.arriba{
+    background-color: #232946;
+}
+*{
+    background-color: #f9f4ef;
+}
+
+button{
+    background-color: #8c7851;
+}
+h1,h4,h5{
+    font-family: 'Montserrat';
+    color:#716040;
+    font-weight: bold;
+    text-align: left;
+    display: inline;
+}
+h1{
+    text-align: center;
+}
+
+
+
+#graficos {
+    display: flex;
+    align-items: stretch;
+    
+}
+
+
+
+
+.col-plot {
+    flex: 1;
+}
+.list-group-item{
+    background-color: #e2e2be;
+}
+
+
+.bg-light tr{
+    background-color: #cc9b41;
+    color: #fffffe;
+}
+#plot1 {
+    flex: 1;
+    /* Ocupa todo el espacio disponible */
+}
+
+#plot2 {
+    flex: 1;
+    /* Ocupa todo el espacio disponible */
+}
+#plot3{
+    flex: 1;
+}
+img {
+    width: 50px; /* Ajusta el valor según sea necesario */
+    height: auto; /* Para mantener la proporción original */
+    align-items: left;
+}
+
+body{
+    margin: 20px;
+    padding: 10px;
+    background-color: #f2f7f5;
+    }
+
+

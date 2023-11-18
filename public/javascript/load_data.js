@@ -37,7 +37,7 @@ let cargarPrecipitacion = () => {
 
   // Actualizar los elementos HTML con los valores correspondientes
   precipitacionMinValue.textContent = `Min ${min} [mm]`
-  precipitacionPromValue.textContent = `Prom ${ Math.round(prom * 100) / 100 } [mm]`
+  precipitacionPromValue.textContent = `Prom ${Math.round(prom * 100) / 100} [mm]`
   precipitacionMaxValue.textContent = `Max ${max} [mm]`
 };
 
@@ -45,14 +45,14 @@ let cargarPrecipitacion = () => {
 
 
 let cargarFechaActual = () => {
-  
-    //Obtenga la referencia al elemento h6
-    let coleccionHTML = document.getElementsByTagName("h6")
 
-    let tituloH6 = coleccionHTML[0]
-    //Actualice la referencia al elemento h6 con el valor de la función fechaActual()
-    tituloH6.textContent = fechaActual()
-  }
+  //Obtenga la referencia al elemento h6
+  let coleccionHTML = document.getElementsByTagName("h6")
+
+  let tituloH6 = coleccionHTML[0]
+  //Actualice la referencia al elemento h6 con el valor de la función fechaActual()
+  tituloH6.textContent = fechaActual()
+}
 
 
 
@@ -60,34 +60,34 @@ let cargarFechaActual = () => {
 let cargarOpenMeteo = () => {
 
   //URL que responde con la respuesta a cargar
-  let URL ='https://api.open-meteo.com/v1/forecast?latitude=-2.1962&longitude=-79.8862&hourly=temperature_2m,precipitation_probability&daily=uv_index_max&timezone=auto'; 
+  let URL = 'https://api.open-meteo.com/v1/forecast?latitude=-2.1962&longitude=-79.8862&hourly=temperature_2m,precipitation_probability&daily=uv_index_max&timezone=auto';
 
-  fetch( URL )
+  fetch(URL)
     .then(responseText => responseText.json())
     .then(responseJSON => {
-        
+
       console.log(responseJSON);
       //Respuesta en formato JSON
-  
+
       //Referencia al elemento con el identificador plot
       let plotRef = document.getElementById('plot1');
-      let plotRef2= document.getElementById('plot2');
-      let plotRef3= document.getElementById('plot3');
+      let plotRef2 = document.getElementById('plot2');
+      let plotRef3 = document.getElementById('plot3');
       //Etiquetas del gráfico
 
       //cada 3 horas
-      let label=[];
+      let label = [];
 
 
       let labels = responseJSON.hourly.time;
-      let label2=responseJSON.daily.time;
+      let label2 = responseJSON.daily.time;
       //Etiquetas de los datos
-      //let data = responseJSON.hourly.temperature_2m;
-      let data2 =responseJSON.hourly.precipitation_probability;
+      //let data = responseJSON.hourly.temperature_2m; //forma normal
+      let data2 = responseJSON.hourly.precipitation_probability;
       let data3 = responseJSON.daily.uv_index_max;
-      
-      
-      
+
+
+
       //cada 3 horas
       let data1 = [];
 
@@ -115,13 +115,14 @@ let cargarOpenMeteo = () => {
         }
       };*/
       let config2 = {
-        type: 'bar',
+        type: 'line',
         data: {
-          labels: labels, 
+          labels: labels,
           datasets: [
             {
-              label: 'precipitation probability',
-              data: data2, 
+              label: 'Probabilidad de Precipitación',
+              data: data2,
+              borderColor:'rgb(144, 238, 144)'
             }
           ]
         }
@@ -129,18 +130,21 @@ let cargarOpenMeteo = () => {
       let config3 = {
         type: 'line',
         data: {
-          labels: label2, 
+          labels: label2,
           datasets: [
             {
               label: 'Rayos UV',
-              data: data3, 
+              data: data3,
+              borderColor: 'rgb(75, 192, 192)', // Color de la línea
+              borderWidth: 2, // Ancho de la línea en píxeles
+              fill: true, // Si quieres rellenar el área debajo de la línea
             }
           ]
         }
       };
       //Objeto de configuración del gráfico
       let config4 = {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: label,
           datasets: [
@@ -148,7 +152,7 @@ let cargarOpenMeteo = () => {
               label: 'Temperatura cada 3 horas',
               data: data1,
               fill: false,
-              borderColor:'rgba(25, 19, 70, 0.5)' ,
+              borderColor: 'rgba(25, 19, 70, 0.5)',
               backgroundColor: 'rgba(205, 129,324, 0.5)',
               borderWidth: 1,
               pointRadius: 5,
@@ -167,12 +171,12 @@ let cargarOpenMeteo = () => {
           }
         }
       };
-      
+
 
       //Objeto con la instanciación del gráfico
       //let chart1 = new Chart(plotRef, config);
-      let chart2 = new Chart(plotRef2,config2);
-      let chart3 = new Chart(plotRef3,config3)
+      let chart2 = new Chart(plotRef2, config2);
+      let chart3 = new Chart(plotRef3, config3)
       let chart4 = new Chart(plotRef, config4);
     })
     .catch(console.error);
@@ -221,7 +225,7 @@ let selectListener = async (event) => {
   let cityStorage = localStorage.getItem(selectedCity);
 
   if (cityStorage == null) {
-  try {
+    try {
 
       //API key
       let APIkey = '9d2fae962db0f1ba97ba5d8e606df0b9'
@@ -229,19 +233,19 @@ let selectListener = async (event) => {
 
       let response = await fetch(url)
       let responseText = await response.text()
-      
+
       await parseXML(responseText)
 
-       // Guarde la entrada de almacenamiento local
-       await localStorage.setItem(selectedCity, responseText)
+      // Guarde la entrada de almacenamiento local
+      await localStorage.setItem(selectedCity, responseText)
 
-  } catch (error) {
+    } catch (error) {
       console.log(error)
-  }
-  }else {
-        // Procese un valor previo
-        parseXML(cityStorage)
     }
+  } else {
+    // Procese un valor previo
+    parseXML(cityStorage)
+  }
 
 }
 
@@ -261,16 +265,16 @@ let parseXML = (responseText) => {
   let timeArr = xml.querySelectorAll("time")
 
   timeArr.forEach(time => {
-      
-      let from = time.getAttribute("from").replace("T", " ")
 
-      let humidity = time.querySelector("humidity").getAttribute("value")
-      let windSpeed = time.querySelector("windSpeed").getAttribute("mps")
-      let precipitation = time.querySelector("precipitation").getAttribute("probability")
-      let pressure = time.querySelector("pressure").getAttribute("value")
-      let cloud = time.querySelector("clouds").getAttribute("all")
+    let from = time.getAttribute("from").replace("T", " ")
 
-      let template = `
+    let humidity = time.querySelector("humidity").getAttribute("value")
+    let windSpeed = time.querySelector("windSpeed").getAttribute("mps")
+    let precipitation = time.querySelector("precipitation").getAttribute("probability")
+    let pressure = time.querySelector("pressure").getAttribute("value")
+    let cloud = time.querySelector("clouds").getAttribute("all")
+
+    let template = `
           <tr>
               <td>${from}</td>
               <td>${humidity}</td>
@@ -281,8 +285,8 @@ let parseXML = (responseText) => {
           </tr>
       `
 
-      //Renderizando la plantilla en el elemento HTML
-      forecastElement.innerHTML += template;
+    //Renderizando la plantilla en el elemento HTML
+    forecastElement.innerHTML += template;
   })
 
 }
@@ -290,11 +294,11 @@ let parseXML = (responseText) => {
 
 
 
-/*
-let loadExternalTable = async(event) => {
+
+let loadExternalTable = async() => {
   
   //Requerimiento asíncrono
-    //Handling event
+
     console.log("Gestion de riesgos")
   
     let proxy = 'https://cors-anywhere.herokuapp.com/'
@@ -313,14 +317,14 @@ let loadExternalTable = async(event) => {
   
   
  }
- *///
- //loadExternalTable()
+ 
+loadExternalTable();
 
 
 
 
 
-loadForecastByCity()
+loadForecastByCity();
 
 cargarPrecipitacion();
 cargarFechaActual();

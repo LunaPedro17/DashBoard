@@ -1,6 +1,4 @@
-.arriba{
-    background-color: #232946;
-}
+
 *{
     background-color: #f9f4ef;
 }
@@ -15,7 +13,7 @@ h1,h4,h5{
     text-align: left;
     display: inline;
 }
-h1{
+h1,h2{
     text-align: center;
 }
 
@@ -24,15 +22,38 @@ h1{
 #graficos {
     display: flex;
     align-items: stretch;
-    
+    justify-content: space-between;
+    position: relative;;
 }
 
 
 
+
+
+
+
+.contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
 
 .col-plot {
     flex: 1;
 }
+
+#plot1 {
+    flex: 1;
+    /* Ocupa todo el espacio disponible */
+}
+
+#plot2 {
+    flex: 1;
+    /* Ocupa todo el espacio disponible */
+}
+
+
 .list-group-item{
     background-color: #e2e2be;
 }
@@ -57,7 +78,7 @@ h1{
 img {
     width: 50px; /* Ajusta el valor según sea necesario */
     height: auto; /* Para mantener la proporción original */
-    align-items: left;
+    float: left;
 }
 
 body{
@@ -66,4 +87,12 @@ body{
     background-color: #f2f7f5;
     }
 
+
+table.default tr:not(:nth-child(1)):not(:nth-child(2)) {
+    display: none;
+}
+
+.default td, span{
+    background-color:rgb(207, 202, 106);
+}
 

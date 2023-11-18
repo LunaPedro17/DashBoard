@@ -23,12 +23,8 @@ h1,h2{
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    position: relative;;
+    position: relative;
 }
-
-
-
-
 
 
 
@@ -48,10 +44,11 @@ h1,h2{
     /* Ocupa todo el espacio disponible */
 }
 
-#plot2 {
+#plot3 {
     flex: 1;
     /* Ocupa todo el espacio disponible */
 }
+
 
 
 .list-group-item{
@@ -63,18 +60,7 @@ h1,h2{
     background-color: #cc9b41;
     color: #fffffe;
 }
-#plot1 {
-    flex: 1;
-    /* Ocupa todo el espacio disponible */
-}
 
-#plot2 {
-    flex: 1;
-    /* Ocupa todo el espacio disponible */
-}
-#plot3{
-    flex: 1;
-}
 img {
     width: 50px; /* Ajusta el valor según sea necesario */
     height: auto; /* Para mantener la proporción original */
